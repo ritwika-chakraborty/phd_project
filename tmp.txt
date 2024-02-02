@@ -1,0 +1,886 @@
+root -l
+.L energy_spectrum.c
+energy_spectrum();
+TFile *_file1= TFile::Open("EnergySimulation.root")
+ QMethodDist->cd();
+.L energycalibration.c
+energycalibration();
+ EnergyDistribution24->Fit("datafunc1","V","",1000,2000);
+
+
+root -l
+.L energy_spectrum_1.c
+energy_spectrum_1();
+TFile *_file1= TFile::Open("EnergySimulation.root")
+ QMethodDist->cd();
+.L energycalibration_3.c
+energycalibration_3();
+
+
+root -l
+.L energy_spectrum_1.c
+energy_spectrum_1();
+TFile *_file1= TFile::Open("EnergySimulation.root")
+ QMethodDist->cd();
+.L energycalibration_test.c
+energycalibration_test();
+
+
+cd /gm2/app/users/ritwikac/offline/
+cd gm2Dev_v9_33_00
+. /cvmfs/gm2.opensciencegrid.org/prod/g-2/setup
+setup gm2 v9_33_00 -q prof
+source localProducts_gm2_v9_33_00_prof/setup
+cd srcs
+mrb s
+mrb i
+mrb b
+cd gm2analyses/QMethod/
+cd /gm2/app/users/ritwikac/offline/gm2Dev_v9_55_00/srcs/gm2analyses
+cd /gm2/app/users/ritwikac/offline/gm2Dev_v9_28_00/srcs/gm2analyses/ProductionScripts/produce
+nohup ./runhadd.sh &
+
+rm /pnfs/GM2/scratch/users/ritwikac/gm2_v9_19_01_gm2Dev_v9_19_01_tmp_local_area/gm2_v9_19_01_ritwikac_gm2Dev_v9_19_01.tgz
+cd /gm2/app/users/ritwikac/offline/gm2Dev_v9_30_00/srcs/gm2analyses/ProductionScripts/produce
+kinit ritwikac@FNAL.GOV
+source ../setup
+unsetup python
+./go60hr_15951.sh
+
+
+
+cd /gm2/app/users/ritwikac/offline/
+cd gm2Dev_v9_30_00
+. /cvmfs/gm2.opensciencegrid.org/prod/g-2/setup
+setup gm2 v9_30_00 -q prof
+source localProducts_gm2_v9_30_00_prof/setup
+cd srcs
+mrb s
+mrb i
+mrb b
+cd gm2analyses/QMethod
+rm gm2offline_ana.root
+rm output.root
+gm2 -c /gm2/app/users/ritwikac/offline/gm2Dev_v9_30_00/srcs/gm2analyses/fcl/gm2nearline_qmethod_run3.fcl -s /pnfs/GM2/daq/run2/raw/runs_25000/25989/gm2_run25989_00194.mid -n 10 -T output.root
+
+
+cd /gm2/app/users/ritwikac/offline/
+mkdir gm2Dev_v10_06_00
+cd gm2Dev_v10_06_00
+. /cvmfs/gm2.opensciencegrid.org/prod/g-2/setup
+setup gm2 v10_06_00 -q prof
+mrb newDev
+source localProducts_gm2_v10_06_00_prof/setup
+cd srcs
+mrb z
+mrb gitCheckout gm2analyses
+mrb gitCheckout gm2calo
+mrb gitCheckout gm2dataproducts
+mrb s
+mrb b
+mrb i
+
+
+cd /gm2/app/users/ritwikac/offline/
+mkdir gm2Dev_v9_75_00
+cd gm2Dev_v9_75_00
+. /cvmfs/gm2.opensciencegrid.org/prod/g-2/setup
+setup gm2 v9_75_00 -q prof
+mrb newDev
+source localProducts_gm2_v9_75_00_prof/setup
+mrb z
+mrb g gm2analyses
+cd srcs/gm2analyses
+git checkout developRuns2and3
+cd ../
+mrb g gm2calo
+cd gm2calo
+git checkout developRuns2and3
+cd ../
+mrb g gm2dataproducts
+cd gm2dataproducts
+git checkout developRuns2and3
+mrb s
+mrb b
+mrb i
+
+
+
+source srcs/gm2analyses/ProductionScripts/setup
+jobsub_q --user ritwikac
+jobsub_rm -G gm2 --constraint '(JobStatus=?=5)&&(Owner=?="ritwikac")'
+
+jobsub_rm -G gm2 --user ritwikac
+
+source /grid/fermiapp/products/common/etc/setups.sh
+export PRODUCTS=/grid/fermiapp/products/common/db/:$PRODUCTS
+export EXPERIMENT=gm2
+export SAM_EXPERIMENT=gm2
+setup sam_web_client
+kx509
+
+
+
+cd /gm2/app/users/ritwikac/offline/
+cd gm2Dev_v9_71_00
+. /cvmfs/gm2.opensciencegrid.org/prod/g-2/setup
+setup gm2 v9_71_00 -q prof
+source localProducts_gm2_v9_71_00_prof/setup
+cd srcs
+mrb s
+mrb b
+mrb i
+cd gm2analyses/ProductionScripts/produce
+
+cd /gm2/app/users/ritwikac/offline/
+cd gm2Dev_v9_74_00
+. /cvmfs/gm2.opensciencegrid.org/prod/g-2/setup
+setup gm2 v9_74_00 -q prof
+source localProducts_gm2_v9_74_00_prof/setup
+cd srcs/gm2analyses/ProductionScripts/produce
+source ../setup
+mrb s
+mrb b
+mrb i
+
+cd /gm2/app/users/ritwikac/offline/
+cd gm2Dev_v9_75_00
+. /cvmfs/gm2.opensciencegrid.org/prod/g-2/setup
+setup gm2 v9_75_00 -q prof
+source localProducts_gm2_v9_75_00_prof/setup
+cd srcs/gm2analyses/ProductionScripts/produce
+source ../setup
+mrb s
+mrb b
+mrb i
+
+cd /gm2/app/users/ritwikac/offline/
+cd gm2Dev_v10_06_00
+. /cvmfs/gm2.opensciencegrid.org/prod/g-2/setup
+setup gm2 v10_06_00 -q prof
+source localProducts_gm2_v10_06_00_prof/setup
+cd srcs/gm2analyses/ProductionScripts/produce
+source ../setup
+mrb s
+mrb b
+mrb i
+
+
+gm2_5109A/runs_25000/25033/gm2offline_final_29882899_25033.00272.root
+
+/pnfs/GM2/daq/run1/offline/gm2_5036A/runs_15000/15991/gm2offline_full_16270284_15991.00092.root
+/pnfs/GM2/daq/run1/offline/gm2_5036A/runs_15000/15991/gm2offline_full_16270549_15991.00105.root
+/pnfs/GM2/daq/run1/offline/gm2_5036A/runs_15000/15991/gm2offline_full_16271218_15991.00051.root
+/pnfs/GM2/daq/run1/offline/gm2_5036A/runs_15000/15991/gm2offline_full_16271791_15991.00055.root
+/pnfs/GM2/daq/run1/offline/gm2_5036A/runs_15000/15991/gm2offline_full_16270288_15991.00010.root
+/pnfs/GM2/daq/run1/offline/gm2_5036A/runs_15000/15991/gm2offline_full_16270551_15991.00039.root
+/pnfs/GM2/daq/run1/offline/gm2_5036A/runs_15000/15991/gm2offline_full_16271221_15991.00001.root
+/pnfs/GM2/daq/run1/offline/gm2_5036A/runs_15000/15991/gm2offline_full_16271815_15991.00037.root
+/pnfs/GM2/daq/run1/offline/gm2_5036A/runs_15000/15991/gm2offline_full_16270530_15991.00060.root
+/pnfs/GM2/daq/run1/offline/gm2_5036A/runs_15000/15991/gm2offline_full_16271192_15991.00031.root
+/pnfs/GM2/daq/run1/offline/gm2_5036A/runs_15000/15991/gm2offline_full_16271778_15991.00028.root
+/pnfs/GM2/daq/run1/offline/gm2_5036A/runs_15000/15991/gm2offline_full_16270531_15991.00098.root
+/pnfs/GM2/daq/run1/offline/gm2_5036A/runs_15000/15991/gm2offline_full_16271206_15991.00106.root
+/pnfs/GM2/daq/run1/offline/gm2_5036A/runs_15000/15991/gm2offline_full_16271781_15991.00045.root
+/pnfs/GM2/daq/run1/offline/gm2_5036A/runs_15000/15991/gm2offline_full_16270442_15991.00087.root 
+
+
+
+/pnfs/GM2/daq/run1/offline/gm2_5036A/runs_15000/15954/gm2offline_full_16428820_15954.00001.root
+
+
+
+
+
+#!/bin/bash
+hadd -n 50 rc_run15951_sum.root /pnfs/GM2/scratch/users/ritwikac/run1/unpack/60hr_15951/2019-05-16-16-48-43/data/*.root
+
+
+
+
+
+gm2offline_full_16274761_15951.00404.root
+gm2offline_full_16427578_15951.00402.root
+gm2offline_full_16428619_15951.00072.root
+gm2offline_full_16429172_15951.00349.root
+gm2offline_full_16274764_15951.00287.root
+gm2offline_full_16427578_15951.00442.root
+gm2offline_full_16428622_15951.00274.root
+gm2offline_full_16429179_15951.00257.root
+
+
+.L run2_calohist_sum.c
+run2_calohist_sum()
+.L run2_calohist_sum_corr.c
+run2_calohist_sum_corr()
+.L matrix.C
+matrix()
+.L run2_fr.c
+run2_fr()
+
+
+.L run2_15td_softrb60.c
+run2_15td_softrb60()
+.L matrix.C
+matrix()
+.L run2_fr.c
+run2_fr()
+
+.L run2_15td_softrb60.c
+run2_15td_softrb60()
+.L matrix_calo12.C
+matrix_calo12()
+.L run2_fr_calo12.c
+run2_fr_calo12()
+
+
+
+.L run1_calohist_sum.c
+run1_calohist_sum()
+.L matrix_run1.C
+matrix_run1()
+.L run1_fr.c
+run1_fr()
+
+.L run2_before_15td_calohist_sum.c
+run2_before_15td_calohist_sum()
+.L matrix_run2_before_15td.C
+matrix_run2_before_15td()
+.L run2_before_15td_fr.c
+run2_before_15td_fr()
+
+
+
+
+gm2 -c /gm2/app/users/ritwikac/offline/gm2Dev_v9_30_00/srcs/gm2analyses/fcl/QFillByFill_Laura_mod.fcl /pnfs/GM2/daq/run2/offline/gm2_5100A/runs_26000/26610/gm2offline_full_19641609_26610.00483.root -T run2_1sr_test5.root
+gm2 -c /gm2/app/users/ritwikac/offline/gm2Dev_v9_75_00/srcs/gm2analyses/fcl/QFillByFillProd_ECalibDB.fcl /pnfs/GM2/daq/run2/offline/gm2_5125A/runs_27000/27204/gm2offline_final_46299795_27204.00053.root -T run2h_run27204subrun53.root
+
+.L run2_calohist_sum.c
+run2_calohist_sum()
+.L run2_calohist_sum_corr.c
+run2_calohist_sum_corr()
+
+
+.L run2_calohist_sum_thresh_850.c
+run2_calohist_sum_thresh_850()
+.L matrix.C
+matrix()
+.L run2_fr_thresh_850.c
+run2_fr_thresh_850()
+
+
+.L run2_calohist_sum_thresh_1134.c
+run2_calohist_sum_thresh_1134()
+.L matrix.C
+matrix()
+.L run2_fr_thresh_1134.c
+run2_fr_thresh_1134()
+
+
+.L run2_9par_diagnostics_15td_thres_1134.c
+run2_9par_diagnostics_15td_thres_1134()
+.L matrix.C
+matrix()
+.L run2_calosum_fr.c
+run2_calosum_fr()
+
+gm2 -c /gm2/app/users/ritwikac/offline/gm2Dev_v9_40_00/srcs/gm2analyses/fcl/QFillByFill_Laura_mod.fcl /pnfs/GM2/daq/run2/offline/gm2_5109A/runs_24000/24750/gm2offline_final_29985805_24750.00010.root -T run2_test.root
+
+
+.L run2_9par_nofr_14000sr.c
+run2_9par_nofr_14000sr()
+.L matrix.C
+matrix()
+.L run2_calosum_fr_14000sr_thres_1134.c
+run2_calosum_fr_14000sr_thres_1134()
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2_vcbo_fit.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x vcbo_trial.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x vbo2_trial.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x VD_trial.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2_hcbo_fit.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2_lm_fit.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2_starttimescan.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.X run2_5par_run2c.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2_starttime.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2_VD_fit.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2_hslicescan.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2_vslicescan.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2_nominal_ns.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x ratio_method.c
+
+
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2_hcbo_ns.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2_lm_ns.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2_vbo_ns.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2_VD_ns.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2_calo_vbo.c
+.x matrix.C
+.x run2_calo_fr.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x calo_sum_atmd.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2c_dqc_VD.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2c_dqc_hslice_ratio.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2c_vbo_15td_noDQC.c 
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2c_vbo_60td_noDQC.c 
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2c_vbo_60td_DQC.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2c_dqc_15td_caloscan.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2d_18par_early_st.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2c_18par_early_st.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2_hslices_early_st.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2d_dqc_VD.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2c_dqc_PO.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x diff_nonlin.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x diff_nonlin_xtal.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x diff_nonlin_timate.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x diff_nonlin_statnorm.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x diff_nonlin_fft.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x diff_nonlin_fft_calo.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x diff_nonlin_fft_hslice.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x diff_nonlin_fft_vslice.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x diff_nonlin_fft_xtal.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x diff_nonlin_fft_run2oldconfig.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x diff_nonlin_fit.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x diff_nonlin_oldconfig.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x diff_nonlin_theshscan.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x diff_nonlin_rebinscan.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2c_dqc_18_par.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2d_dqc_18_par.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2e_dqc_18_par.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2f_dqc_18_par.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2g_dqc_18_par.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2h_dqc_18_par.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2_18par.c
+.q
+root -l
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2_caloscan.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x ratio_method.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x qratio_fit_nhcbo.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x qratio_fit_hcbo_full.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x qratio_fit_vw.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x qratio_fit_lm.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x qratio_binshift.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x Qwiggle_sim_fit.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x Qratio_sim_fit.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x wiggle_sim.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x qratio_fit_noflash.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run3n_18_par.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2_OOF_divided_fcl_18par.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run3O_5par_caloscan.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run3O_5par_hscan.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run3O_5par_vscan.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x construct_rhist_copy.c
+.x ratio_cov_matrix.c
+.x qratio_full_fit.c
+
+
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2c_reprocessed.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2c_reprocessed_caloscan.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x ped_ring_raw_fit.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2c_reprocessed_ped_ring.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2c_reprocessed_VD_calculation.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2c_reprocessed_VD.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2c_reprocessed_fr.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x calo8_5par_test.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x error_bar_test.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x automated_15td_fits.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x horizontal_slices_fit.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x percalo_fit.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x construct_rhist_copy.c
+.x automated_ratio_fit.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x ratio_percalo_fit.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x ratio_hslice_scan.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x ratio_VD_calculation.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x ratio_starttime_scan.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x ratio_calo_scan.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x starttime_scan.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x vertical_slices_fit.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x ratio_vslice_scan.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x rhist_random_vs_copy.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x ratio_nbinshift.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x ratio_nbinshift_randomized.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x ratio_randomize_oneseed.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x ratio_cov_full_fit.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x ratio_errorbar_randseed.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x ratio_errorbar_copy.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x ratio_cov_sim.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x hist_2_ratio_fit.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x ratio_2hist_fullfit.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x ratio_2hist_randomize_oneseed.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x thresh_multiplier_scan.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x thresh_scan.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x ratio_2hist_FR_cov_fullfit.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x noise_threshold_dist.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x ratio_2hist_hslice_scan.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x ratio_2hist_hslice_scan_postrebin.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x ratio_cov_FR_full_fit.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x ratio_starttime_scan_FR.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x ratio_percalo_fit_FR.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x ratio_FR_corr.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x ratio_starttime_part1.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run3_ratio_starttime_part1.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x ratio_percalo_part1.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x ratio_percalo_part2.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x ratio_percalo_part3.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x ratio_percalo_part4.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x ratio_percalo_part5.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x ratio_percalo_part6.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run3_ratio_cov_full_fit.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run3_ratio_cov_FR_full_fit.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x ratio_run3_calo_scan.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x ratio_starttime__extended_part1.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x tim_ratio_starttime_extended_part1.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x tim_ratio_cov_full_fit.c
+
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run3_ratio_starttime_extended_part1.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x randomized_oneseed_starttime.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run3btom_randomized_oneseed_starttime.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run3no_randomized_oneseed_starttime.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2_randomized_oneseed_caloscan.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run3btom_randomized_oneseed_caloscan.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run3no_randomized_oneseed_caloscan.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2_randomized_FR_fullfit.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run3btom_randomized_FR_fullfit.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run3no_randomized_FR_fullfit.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run2_regular_q_runscan.c
+
+gSystem->Load("./libBlinders.so");
+gROOT->ProcessLine(".include ./rlib/include/");
+.x run3_regular_q_runscan.c
+
+2H noDB
+gm2offline_final_46299795_27204.00053.root
+gm2offline_final_22331905_27212.00376.root
+
+2H others
+gm2offline_final_46298656_27212.00297.root
+gm2offline_final_46299036_27211.00431.root
+gm2offline_final_46332330_27191.00357.root
+
+
+
+SAM monitoring URL:
+
+https://samweb.fnal.gov:8483/station_monitor/gm2/stations/gm2/projects/ritwikac_2022070816_21886
+
+SAM project URL:
+
+https://samwebgpvm03.fnal.gov:8483/sam/gm2/stations/gm2/projects/name/ritwikac_2022070816_21886
+
+
+Submission done.
+
+
+Copied submission.log to /pnfs/GM2/scratch/users/ritwikac/run3/final/newError/run3d/2022-07-08-16-34-14 and linked to it.
+
+Questions and/or problems? see https://cdcvs.fnal.gov/redmine/projects/g-2/wiki/Job_Running_Submission_FAQ for additional help.
+
+Done.
+
+

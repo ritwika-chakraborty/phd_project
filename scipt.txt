@@ -1,0 +1,226 @@
+TH1D *hx= new TH1D("hx","hx", 1005, 0, 1005);
+for(int i=1; i<=1005; i++){hx->SetBinContent(i, qHist_2_2052->GetBinContent(i));}
+hx->GetNbinsX()
+hx->GetBinWidth(20)
+TH1D *hx15= new TH1D("hx15","hx15", 67, 0, 67);
+for(int i=1; i<=67; i++){hx15->SetBinContent(i, qHist_0_2052->GetBinContent(i));}
+hx->Rebin(15)
+TH1D *h= new TH1D("h","h", 54270, 0, 54270);
+for(int i=1; i<=54270; i++){h->SetBinContent(i, qHist_2_2052->GetBinContent(i));}
+h->Rebin(15)
+TH1D *hxnew= new TH1D("hxnew","hxnew", 67, 0, 67);
+hx->GetNbinsX()
+for(int i=1; i<=67; i++){hxnew->SetBinContent(i, hx->GetBinContent(i));}
+TH1D *hnew= new TH1D("hnew","hnew", 3618, 0, 3618);
+hnew->GetNbinsX()
+for(int i=1; i<=3618; i++){hnew->SetBinContent(i, h->GetBinContent(i));}
+hxnew->Rebin(67)
+hx15->Rebin(67)
+hxnew->SetLineColor(kRed)
+hxnew->Divide(hx15)
+hnew->Rebin(3618)
+qHist_0_2052->Rebin(3618)
+hnew->SetLineColor(kRed)
+hnew->Divide(qHist_0_2052)
+TCanvas *c=new TCanvas("c","c");
+c->Divide(1,2)
+c->cd(1)
+hxnew->Draw()
+c->cd(2)
+hnew->Draw()
+
+hx15->Draw("same")
+
+
+
+TH1D *hdiff= new TH1D("hdiff","hdiff", 67, 0, 67);
+for(int i=1; i<=67; i++){hdiff->SetBinContent(i, hxnew->GetBinContent(i)-hx15->GetBinContent(i));}
+hdiff->Draw()
+
+
+TCanvas *c=new TCanvas("c","c");
+c->Divide(1,2)
+c->cd(1)
+hxnew->Draw()
+c->cd(2)
+hx15->Draw()
+
+int gpu_data[5]={10,-9,-10,-12,-13}
+double ped[5]={-0.26,-0.13,-0.49,-0.58,-0.91}
+
+int gpu_data[15]={-88.0,-80.0,-84.0,-95.0,-75.0,-90.0,-97.0,-89.0,-97.0,-99.0,-98.0,-82.0,-95.0,-89.0,-97.0}
+
+int raw_data[15]={2011,2015,12,-19,10,-13,10,-19,11,-11,12,-17,9,-15,11}
+int gpu_data[15]
+double real_data[15]
+double ped[15]={-3289.95,-3567.34,-3673.93,-3134.82,-3156.8145,-2823.69,-2776.78,-3009.27,-2989.26,-3098.35,-3178.64,-2977.9459,-2991.6214,-2879.4966,-3389.98}
+for(int i=0;i<=14;i++){gpu_data[i]=raw_data[i]+ped[i]; real_data[i]=raw_data[i]+ped[i];} 
+int adc=0;
+double fadc=0;
+for(int i=0;i<=14;i++){adc+=gpu_data[i]; fadc+=gpu_data[i]; adc-=ped[i]; fadc-=ped[i];}
+adc
+fadc
+TH1D *hrawdata=new TH1D("hrawdata","hrawdata",15,0,15);
+TH1D *hped=new TH1D("hped","hped",15,0,15);
+TH1D *hgpudata=new TH1D("hgpudata","hgpudata",15,0,15);
+for(int i=1; i<=15;i++){hrawdata->SetBinContent(i,raw_data[i-1]);hped->SetBinContent(i,ped[i-1]);hgpudata->SetBinContent(i,gpu_data[i-1]);}
+hrawdata->SetLineWidth(3)
+hped->SetLineWidth(3)
+hgpudata->SetLineWidth(3)
+TCanvas *c=new TCanvas("c","c");
+c->Divide(1,2)
+c->cd(1)
+hrawdata->Draw()
+c->cd(2)
+hped->Draw()
+TCanvas *c1=new TCanvas("c1","c1");
+c1->Divide(1,2)
+c1->cd(1)
+hgpudata->Draw()
+TH1D *hdisp= new TH1D("hdisp","hdisp",2,0,2);
+hdisp->SetBinContent(1,fadc)
+hdisp->SetBinContent(2,adc)
+hdisp->SetLineWidth(3)
+c1->cd(2)
+hdisp->Draw()
+
+
+int gpu_data[15]={-1782,-1776,-1777,-1785,-1788,-1780,-1786,-1775,-1785,-1784,-1780,-1789,-1772,-1773,582}
+double ped=-1780.5859
+int adc=0;
+double fadc=0;
+for(int i=0;i<=14;i++){adc+=gpu_data[i]; fadc+=gpu_data[i]; adc-=ped; fadc-=ped;}
+adc
+fadc
+TH1D *hrawbin=new TH1D("hrawbins","hrawbins",15,0,15);
+for(int i=1;i<=15;i++){hrawbin->SetBinContent(i,gpu_data[i-1]);}
+TH1D *hdrebin=new TH1D("hdrebin","hdrebin",3,0,3)
+TH1D *hrebin=new TH1D("hrebin","hrebin",3,0,3)
+hdrebin->SetBinContent(2,fadc-adc)
+hdrebin->SetLineWidth(3)
+hrebin->SetBinContent(1,0)
+hrebin->SetBinContent(2,ped)
+hrebin->SetBinContent(3,0)
+hrebin->SetLineWidth(3)
+hrawbin->SetLineWidth(3)
+TCanvas *c1=new TCanvas("c1","c1");
+c1->Divide(1,2)
+c1->cd(1)
+hrawbin->Draw()
+c1->cd(2)
+hdrebin->GetYaxis()->SetRangeUser(-15,15)
+hdrebin->Draw()
+
+hrebin->Draw("same")
+
+
+
+int adc_data[15]
+adc=0
+for(int i=0;i<=14;i++){adc+=gpu_data[i]; adc-=ped[i]; adc_data[i]=adc; adc=0;}
+int rebinned_sum=0;
+for(int i=0;i<=14;i++){rebinned_sum+=adc_data[i];}
+rebinned_sum
+
+double raw_ped[25]={-4781.92,-4655.71,-4658.28,-4473.74,-4366.17,-1688.84,-1259.16,-1378.29,-1160.43,-1006.95,-230.49,-168.38,-145.28,-136.36,-153.42,-198.41,-201.54,-203.67,-209.45,-200.12,-203.26,-203.98,-201.59,-197.67,-199.12}
+int raw_adc[25]={-11,1200,1290,11,-15,980,-13,-16,9,12,-8,-11,9,849,15,14,-13,7,-8,5,-9,6,-8,-13,10}
+int adc_ped[25]
+double adc_ped_real[25]
+for(int i=0;i<=24;i++){adc_ped[i]=raw_ped[i]+raw_adc[i];adc_ped_real[i]=raw_ped[i]+raw_adc[i];cout<<adc_ped[i]<<" "<<endl;cout<<adc_ped_real[i]<<" "<<endl;}
+int adc[5]={0,0,0,0,0}
+int j=0
+for(int i=0;i<=24;i++){adc[j]+=adc_ped[i]; adc[j]-=raw_ped[i]; if((i+1)%5==0){j=j+1;}}
+adc[0]
+adc[1]
+adc[2]
+adc[3]
+adc[4]
+int adc_n[25]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+int rebinned_sum[5]={0,0,0,0,0}
+for(int i=0;i<=24;i++){adc_n[i]=adc_ped[i]-raw_ped[i];}
+j=0
+for(int i=0;i<=24;i++){rebinned_sum[j]+=adc_n[i]; if((i+1)%5==0){j=j+1;}}
+rebinned_sum[0]
+rebinned_sum[1]
+rebinned_sum[2]
+rebinned_sum[3]
+rebinned_sum[4]
+TH1D *hped=new TH1D("hped","hped",25,0,25)
+for(int i=1;i<=25;i++){hped->SetBinContent(i,adc_ped[i]);}
+TH1D *htd=new TH1D("htd","htd",5,0,5)
+TH1D *hrb=new TH1D("hrb","hrb",5,0,5)
+for(int i=0;i<=4;i++){htd->SetBinContent(i+1,adc[i]);hrb->SetBinContent(i+1,rebinned_sum[i]);}
+TCanvas *c=new TCanvas("c","c");
+c->Divide(1,2)
+c->cd(1)
+hped->Draw()
+c->cd(2)
+hrb->SetLineColor(kRed)
+htd->SetLineColor(kBlack)
+htd->Draw()
+hrb->Draw("same")
+
+int xtal
+cout<<"enter xtal"<<endl;
+cin>>xtal
+TH1D *hx1[54],*hx2[54],*hx3[54],*hx4[54];
+for(int i=0;i<=53;i++){hx1[i]=new TH1D("hx1","hx1",1005,0,1005);}
+for(int i=0;i<=53;i++){hx2[i]=new TH1D("hx2","hx2",1005,0,1005);}
+for(int i=0;i<=53;i++){hx3[i]=new TH1D("hx3","hx3",1005,0,1005);}
+for(int i=0;i<=53;i++){hx4[i]=new TH1D("hx4","hx4",1005,0,1005);}
+int j=0
+int k=1
+for(int i=1; i<=1005; i++){hx1[j]->SetBinContent(k,qHist_2_656->GetBinContent(i));k=k+1;if(i%1005==0){k=1;j=j+1;}}
+j=0
+k=1
+for(int i=1; i<=1005; i++){hx2[j]->SetBinContent(k,qHist_2_658->GetBinContent(i));k=k+1;if(i%1005==0){k=1;j=j+1;}}
+j=0
+k=1
+for(int i=1; i<=1005; i++){hx3[j]->SetBinContent(k,qHist_2_660->GetBinContent(i));k=k+1;if(i%1005==0){k=1;j=j+1;}}
+j=0
+k=1
+for(int i=1; i<=1005; i++){hx4[j]->SetBinContent(k,qHist_2_672->GetBinContent(i));k=k+1;if(i%1005==0){k=1;j=j+1;}}
+TH1D *h_sum1 = new TH1D("h_sum1","h_sum1",1005,0,1005);
+TH1D *h_sum2 = new TH1D("h_sum2","h_sum2",1005,0,1005);
+TH1D *h_sum3 = new TH1D("h_sum3","h_sum3",1005,0,1005);
+TH1D *h_sum4 = new TH1D("h_sum4","h_sum4",1005,0,1005);
+for(int i=0; i<=53; i++){h_sum1->Add(hx1[i],1);h_sum2->Add(hx2[i],1);h_sum3->Add(hx3[i],1);h_sum4->Add(hx4[i],1);}
+TH1D *hsum = new TH1D("hsum","hsum",1005,0,1005);
+for(int i=1;i<=1005;i++){hsum->SetBinContent(i,h_sum1->GetBinContent(i)+h_sum2->GetBinContent(i)+h_sum3->GetBinContent(i)+h_sum4->GetBinContent(i));}
+hsum->SetLineColor(kRed)
+hsum->Rebin(15)
+hsum->SetBins(67,0,67)
+TH1D *h15x1[54],*h15x2[54],*h15x3[54],*h15x4[54];
+for(int i=0;i<=53;i++){h15x1[i]=new TH1D("h15x1","h15x1",67,0,67);}
+for(int i=0;i<=53;i++){h15x2[i]=new TH1D("h15x2","h15x2",67,0,67);}
+for(int i=0;i<=53;i++){h15x3[i]=new TH1D("h15x3","h15x3",67,0,67);}
+for(int i=0;i<=53;i++){h15x4[i]=new TH1D("h15x4","h15x4",67,0,67);}
+j=0
+k=1
+for(int i=1; i<=67; i++){h15x1[j]->SetBinContent(k,qHist_0_656->GetBinContent(i));k=k+1;if(i%67==0){k=1;j=j+1;}}
+j=0
+k=1
+for(int i=1; i<=67; i++){h15x2[j]->SetBinContent(k,qHist_0_658->GetBinContent(i));k=k+1;if(i%67==0){k=1;j=j+1;}}
+j=0
+k=1
+for(int i=1; i<=67; i++){h15x3[j]->SetBinContent(k,qHist_0_660->GetBinContent(i));k=k+1;if(i%67==0){k=1;j=j+1;}}
+j=0
+k=1
+for(int i=1; i<=67; i++){h15x4[j]->SetBinContent(k,qHist_0_672->GetBinContent(i));k=k+1;if(i%67==0){k=1;j=j+1;}}
+TH1D *h15_sum1 = new TH1D("h15_sum1","h15_sum1",67,0,67);
+TH1D *h15_sum2 = new TH1D("h15_sum2","h15_sum2",67,0,67);
+TH1D *h15_sum3 = new TH1D("h15_sum3","h15_sum3",67,0,67);
+TH1D *h15_sum4 = new TH1D("h15_sum4","h15_sum4",67,0,67);
+for(int i=0; i<=53; i++){h15_sum1->Add(h15x1[i],1);h15_sum2->Add(h15x2[i],1);h15_sum3->Add(h15x3[i],1);h15_sum4->Add(h15x4[i],1);}
+TH1D *h15sum = new TH1D("h15sum","h15sum",67,0,67);
+for(int i=1;i<=67;i++){h15sum->SetBinContent(i,h15_sum1->GetBinContent(i)+h15_sum2->GetBinContent(i)+h15_sum3->GetBinContent(i)+h15_sum4->GetBinContent(i));}
+TCanvas *c=new TCanvas("c","c");
+c->Divide(1,2)
+c->cd(1)
+h15sum->Draw()
+hsum->Draw("same")
+TH1D *hdiff=new TH1D("difference","difference",67,0,67);
+for(int i=1;i<=67;i++){hdiff->SetBinContent(i,hsum->GetBinContent(i)-h15sum->GetBinContent(i));}
+c->cd(2)
+hdiff->SetLineColor(kBlack)
+hdiff->Draw()
